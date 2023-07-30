@@ -1,0 +1,106 @@
+﻿@model IEnumerable<AppData.Models.DonHang>
+
+@{
+    ViewData["Title"] = "Quản lý đơn hàng";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    int stt = 0;
+}
+
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+               <a asp-area="Admin" asp-controller="AdminDonHang" asp-action="Create" class="nav-link active">  <h2>Tạo mới</h2> </a>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a asp-area="Admin" asp-controller="Home" asp-action="Index">Trang chủ</a></li>
+              <li class="breadcrumb-item active">Quản lý đơn hàng</li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+
+      <!-- Default box -->
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">Quản lý đơn hàng</h3>
+
+          <div class="card-tools">
+            <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+              <i class="fas fa-minus"></i>
+            </button>
+            <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+        </div>
+        <div class="card-body p-0">
+<table class="table table-striped projects">
+    <thead>
+        <tr>
+            <th style="width: 1%">Stt</th>
+            <th style="width: 15%">Tên khách hàng</th>
+            <th style="width: 10%"> Trạng thái</th>
+            <th style="width: 15%">Ngày tạo</th>
+            <th style="width: 15%">Tên đầy đủ</th>
+            <th style="width: 15%">Địa chỉ</th>
+
+        </tr>
+    </thead>
+    <tbody>
+                        @foreach (var item in Model)
+                        {
+                                    <tr>
+                                        <td>
+                                            @stt++;
+                                        </td>
+                                      
+                <td>
+                                    @Html.DisplayFor(modelItem => item.Ten)
+                </td>
+                <td>
+                                    @Html.DisplayFor(modelItem => item.TrangThai)
+                </td>
+                <td>
+                                    @Html.DisplayFor(modelItem => item.NgayTao)
+                </td>
+                <td>
+                                    @Html.DisplayFor(modelItem => item.KhachHangId)
+                </td>
+                <td>
+                                    @Html.DisplayFor(modelItem => item.TenKhachHang)
+                </td>
+                <td>
+                                    @Html.DisplayFor(modelItem => item.DiaChi)
+                </td>
+
+                                        <td class="project-actions text-right">
+                                            <a class="btn btn-info btn-sm" href="@Url.Action("Edit", new { id = item.DonHangId })">
+                                                <i class="fas fa-pencil-alt"></i>
+                                                Chỉnh sửa
+                                            </a>
+                                            <a class="btn btn-danger btn-sm" href="@Url.Action("Delete", new { id = item.DonHangId })">
+                                                <i class="fas fa-trash"></i>
+                                                Xóa
+                                            </a>
+                                        </td>
+                                    </tr>
+                        }
+    </tbody>
+</table>
+
+        </div>
+        <!-- /.card-body -->
+      </div>
+      <!-- /.card -->
+
+    </section>
+    <!-- /.content -->
+  </div>

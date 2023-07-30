@@ -1,0 +1,207 @@
+﻿@using System.Globalization;
+@model List<AppView.ViewModels.GioHangViewModel>
+@{
+    ViewData["Title"] = "Giỏ hàng";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+    <!-- Breadcrumb Section Begin -->
+    <section class="breadcrumb-section set-bg" data-setbg="/img/breadcrumb.jpg">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="breadcrumb__text">
+                        <h2>Shopping Cart</h2>
+                        <div class="breadcrumb__option">
+                            <a href="./index.html">Home</a>
+                            <span>Shopping Cart</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Breadcrumb Section End -->
+
+    <!-- Shoping Cart Section Begin -->
+    <section class="shoping-cart spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="shoping__cart__table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th class="shoping__product"> Sản phẩm</th>
+                                    <th>Giá</th>
+                                    <th>Số lượng</th>
+                                    <th>Tổng tiền</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                        @if (Model != null)
+                        {
+                            @foreach (var item in Model)
+                            {
+            <tbody class="product-row"> 
+                <tr>
+                    <td class="shoping__cart__item">
+                        <img width="101" height="100" src="~/images/imgSanPhams/@item.sanPham.Img" alt="@item.sanPham.Ten">
+                        <h5>@item.sanPham.Ten</h5>
+                    </td>
+                                   
+                    <td class="shoping__cart__price">
+                                            @item.sanPham.Gia.ToString("C0", new CultureInfo("vi-VN"))
+                    </td>
+                    <td class="shoping__cart__quantity">
+                        <div class="quantity">
+                            <div class="pro-qty">
+                                <input type="text" class="quantity-input" value="@item.SoLuong">
+                            </div>
+                        </div>
+                    </td>
+                    <td class="shoping__cart__total">
+                                            @item.TongTien.ToString("C0", new CultureInfo("vi-VN"))
+                    </td>
+                            <td><input type="hidden" name="idSanPham" value="@item.sanPham.SanPhamId"></td> 
+                    <td class="shoping__cart__item__close">
+                        <a href="javascript:void(0)" onclick="deleteCartItem('@item.sanPham.SanPhamId')" class="icon_close"></a>
+                    </td>
+                </tr>
+            </tbody>
+                            }
+                        }
+
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="shoping__cart__btns">
+                        <a href="#" class="primary-btn cart-btn">Tiếp tục mua sắm</a>
+                            <button href="javascript:void(0)"v style="border:none" class="primary-btn cart-btn cart-btn-right" onclick="updateCart()"><span class="icon_loading"></span>Cập nhật số lượng giỏ hàng</button>
+
+                    </div>
+
+
+                </div>
+                <div class="col-lg-6">
+                    <div class="shoping__continue">
+                        <div class="shoping__discount">
+                            <h5>Discount Codes</h5>
+                            <form action="#">
+                                <input type="text" placeholder="Enter your coupon code">
+                                <button type="submit" class="site-btn">APPLY COUPON</button>
+                            </form>
+                        </div>
+                    </div>
+                </div> 
+                <form method="post" action="@Url.Action("ConfirmOrder", "CheckOut")"  >
+                <div class="col-lg-6">
+                   
+
+                        
+                    <div class="shoping__checkout">
+                     <h5>Tổng tiền cần phải thanh toán</h5>
+                                <ul>
+                        @if (Model != null)
+                        {
+                            decimal tongTien = 0; 
+                            @foreach (var item in Model)
+                            {
+                                                <li>
+                                    @item.sanPham.Ten x @item.SoLuong 
+                                                    <span>@item.TongTien.ToString("C0", new CultureInfo("vi-VN"))</span>
+                                                </li>
+                                tongTien += item.TongTien;
+                            }
+                                        <li>Tổng tiền <span>@tongTien.ToString("C0", new CultureInfo("vi-VN"))</span></li>
+                        }
+                                </ul>
+                <button type="submit" style="border:none" asp-action="ConfirmOrder" asp-controller="CheckOut" class="primary-btn">Xác nhận đơn hàng</button>
+
+                    </div>
+                        
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <script>
+        // Xóa sản phẩm 
+    function deleteCartItem(idSanPham) {
+        Swal.fire({
+            title: "Bạn có chắc chắn muốn xóa sản phẩm này khỏi giỏ hàng?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Xóa",
+            cancelButtonText: "Hủy",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    type: "POST",
+                    url: "/GioHang/Delete",
+                    data: { idSanPham: idSanPham },
+                    success: function (data) {
+                        // Cập nhật lại trang sau khi xóa sản phẩm thành công
+                        location.reload();
+                    },
+                    error: function () {
+                        alert("Có lỗi xảy ra khi xóa sản phẩm khỏi giỏ hàng.");
+                    },
+                });
+            }
+        });
+    }
+function updateCart() {
+        const productRows = document.querySelectorAll(".product-row");
+
+        productRows.forEach((row) => {
+            const idSanPham =  row.querySelector("[name=idSanPham]").value; // Lấy idSanPham từ thuộc tính data-idSanPham
+            const soLuongInput = row.querySelector(".quantity-input");
+            const soLuong = parseInt(soLuongInput.value);
+
+            // Gửi Ajax request để cập nhật số lượng sản phẩm trong giỏ hàng
+            $.ajax({
+                type: "POST",
+                url: "/GioHang/UpdateCart",
+                data: { idSanPham: idSanPham, soLuong: soLuong },
+                success: function () {
+                    // Hiển thị thông báo thành công bằng SweetAlert2
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Thành công',
+                        text: 'Sản phẩm đã được cập nhật vào giỏ hàng thành công!',
+                        showConfirmButton: false,
+                        timer: 1500
+                        
+                    }).then(() => {
+                        // Sau khi hộp thoại Swal biến mất, thực hiện reload trang sau 2 giây
+                            setTimeout(() => {
+                                location.reload();
+                                }, 1000);
+                    });
+                },
+                error: function () {
+                    // Hiển thị thông báo lỗi bằng SweetAlert2
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Lỗi',
+                        text: 'Có lỗi xảy ra khi cập nhật sản phẩm vào giỏ hàng.',
+                    });
+                },
+            });
+        });
+    }
+</script>
+
+
+
+
+    <!-- Shoping Cart Section End -->
+

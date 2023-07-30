@@ -1,0 +1,130 @@
+﻿@using System.Globalization;
+@model IEnumerable<AppData.Models.SanPham>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    int stt = 0;
+}
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+               <a asp-area="Admin" asp-controller="AdminSanPham" asp-action="Create" class="nav-link active">  <h2>Tạo mới</h2> </a>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Trang chủ</a></li>
+              <li class="breadcrumb-item active">Quản lý tài khoản</li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+
+      <!-- Default box -->
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">Quản lý tài khoản</h3>
+
+          <div class="card-tools">
+            <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+              <i class="fas fa-minus"></i>
+            </button>
+            <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+        </div>
+        <div class="card-body p-0">
+<table class="table table-striped projects">
+    <thead>
+        <tr>
+            <th style="width: 1%">Stt</th>
+            <th style="width: 15%">Tên sản phẩm</th>
+            <th style="width: 10%">Ảnh </th>
+            <th style="width: 15%">Trạng thái</th>
+            <th style="width: 15%">Nhà cung cấp</th>
+            <th style="width: 15%">Số lượng</th>
+            <th style="width: 10%">Màu sắc</th>
+            <th style="width: 10%">Giá</th>
+            <th style="width: 8%" class="text-center">Mô tả</th>
+            <th style="width: 8%" class="text-center">Số lượng tồn</th>
+            <th style="width: 6%"></th>
+            <th style="width: 6%"></th>
+        </tr>
+    </thead>
+    <tbody>
+                        @foreach (var item in Model)
+                        {
+                                <tr>
+                                    <td>
+                                    @{
+                                        stt += 1;
+                                    }
+                                    @stt
+                                        <td>
+                                        @Html.DisplayFor(modelItem => item.Ten)
+                        </td>
+
+                                <td>
+                                        <img src="/images/imgSanPhams/@item.Img" alt="Ảnh sản phẩm" style="width: 150px; height: 150px;">
+                                </td>
+                                        <td class="project-state">
+                                        @if (item.TrangThai == 1)
+                                        {
+                                                                        <span class="badge badge-success">Còn hàng</span>
+                                        }
+                                        else
+                                        {
+                                                                        <span class="badge badge-danger">Hết hàng</span>
+                                        }
+                                        </td>
+                        <td>
+                                        @Html.DisplayFor(modelItem => item.NhaCungCap)
+                        </td>
+                        <td>
+                                        @Html.DisplayFor(modelItem => item.SoLuong)
+                        </td>
+                        <td>
+                                        @Html.DisplayFor(modelItem => item.MauSac)
+                        </td>
+                        <td>
+                                        @item.Gia.ToString("C0", new CultureInfo("vi-VN"))
+                        </td>
+                        <td>
+                                        @Html.DisplayFor(modelItem => item.Mota)
+                        </td>
+                               <td>
+                                        @Html.DisplayFor(modelItem => item.SoLuongTon)
+                            </td>
+
+
+                                    <td class="project-actions text-right">
+                                        <a class="btn btn-info btn-sm" href="@Url.Action("Edit", new { id = item.SanPhamId })">
+                                            <i class="fas fa-pencil-alt"></i>
+                                            Chỉnh sửa
+                                        </a>
+                                        <a class="btn btn-danger btn-sm" href="@Url.Action("Delete", new { id = item.SanPhamId })">
+                                            <i class="fas fa-trash"></i>
+                                            Xóa
+                                        </a>
+                                    </td>
+                                </tr>
+                        }
+    </tbody>
+</table>
+
+        </div>
+        <!-- /.card-body -->
+      </div>
+      <!-- /.card -->
+
+    </section>
+    <!-- /.content -->
+  </div>

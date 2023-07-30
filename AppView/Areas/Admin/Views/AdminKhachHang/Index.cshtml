@@ -1,0 +1,113 @@
+﻿
+@model IEnumerable<AppData.Models.KhachHang>  //Thay phần này để có thể sử dụng phân trang
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    int stt = 0;
+}
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+               <a asp-area="Admin" asp-controller="AdminKhachHang" asp-action="Create" class="nav-link active">  <h2>Tạo mới</h2> </a>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Trang chủ</a></li>
+              <li class="breadcrumb-item active">Quản lý tài khoản</li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+
+      <!-- Default box -->
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">Quản lý tài khoản</h3>
+
+          <div class="card-tools">
+            <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+              <i class="fas fa-minus"></i>
+            </button>
+            <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+        </div>
+        <div class="card-body p-0">
+<table class="table">
+    <thead>
+        <tr>
+            <th>STT</th>
+            <th>Tên</th>
+            <th>Email</th>
+            <th>Tên đầy đủ</th>
+            <th>Địa chỉ</th>
+            <th>Số điện thoại</th>
+            <th>Ảnh đại diện</th>
+            <th>Quyền</th>
+            <th>Trạng thái</th>
+            <th>Thao tác</th>
+        </tr>
+    </thead>
+    <tbody>
+                            @foreach (var item in Model)
+                            {
+                    <tr>
+                        <td>@(stt += 1)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Ten)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Email)</td>
+                        <td>@Html.DisplayFor(modelItem => item.TenDayDu)</td>
+                        <td>@Html.DisplayFor(modelItem => item.DiaChi)</td>
+                        <td>@Html.DisplayFor(modelItem => item.SoDienThoai)</td>
+                        <td>
+                            <img src="/images/@item.AnhDaiDien" alt="Ảnh đại diện" style="width: 150px; height: 150px;">
+                        </td>
+                        <td>
+                            <span class="badge @(item.VaiTro == 1 ? "badge-success" : "badge-primary")">
+                                            @(item.VaiTro == 1 ? "Admin" : "Khách hàng")
+                            </span>
+                        </td>
+                        <td>
+                            <span class="badge @(item.TrangThai == 1 ? "badge-success" : "badge-danger")">
+                                            @(item.TrangThai == 1 ? "Đang hoạt động" : "Không hoạt động")
+                            </span>
+                        </td>
+                        <td>
+                            <a class="btn btn-info btn-sm" href="@Url.Action("Edit", new { id = item.KhachHangId })">
+                                <i class="fas fa-pencil-alt"></i> Sửa
+                            </a>
+                            <a class="btn btn-danger btn-sm" href="@Url.Action("Delete", new { id = item.KhachHangId })">
+                                <i class="fas fa-trash"></i> Xóa
+                            </a>
+                        </td>
+                    </tr>
+                            }
+    </tbody>
+</table>
+
+
+
+
+
+        </div>
+        <!-- /.card-body -->
+      </div>
+      <!-- /.card -->
+
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+
+
+
+
