@@ -1,4 +1,5 @@
-﻿using AppData.Interface;
+﻿
+using AppData.Interface;
 using AppData.Models;
 using AppData.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -45,7 +46,7 @@ namespace AppAPI.Controllers
             {
 
                 await _khServices.Add(kh);
-                return Ok();
+                return Ok(kh);
             }
             catch (Exception ex)
             {
@@ -61,12 +62,13 @@ namespace AppAPI.Controllers
         [HttpPut("Put/{id}")]
         public async Task<IActionResult> Put(KhachHang kh)
         {
+           
             KhachHang khach = await _khServices.GetById(kh.KhachHangId);
             khach.TenDayDu = kh.TenDayDu;
             khach.Ten = kh.Ten;
             khach.AnhDaiDien = kh.AnhDaiDien;
             khach.DiaChi = kh.DiaChi;
-            khach.MatKhau = kh.MatKhau;
+            khach.MatKhau =kh.MatKhau;
             khach.Email = kh.Email;
             khach.TrangThai = kh.TrangThai;
             khach.VaiTro = kh.VaiTro;
@@ -77,7 +79,7 @@ namespace AppAPI.Controllers
             {
                 return BadRequest();
             }
-            return Ok();
+            return Ok(kh);
 
 
         }

@@ -43,7 +43,7 @@ namespace AppAPI.Controllers
             try
             {
                 await _chucVuService.Add(chucVu);
-                return Ok();
+                return Ok(chucVu);
             }
             catch (Exception ex)
             {
@@ -68,7 +68,7 @@ namespace AppAPI.Controllers
             {
                 return BadRequest();
             }
-            return Ok();
+            return Ok(chucVu);
 
             //return await _chucVuService.Update(chucVu);
 

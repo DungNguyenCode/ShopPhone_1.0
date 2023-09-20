@@ -42,7 +42,7 @@ namespace AppAPI.Controllers
             try
             {
                 await _donHangCtServices.Add(DonHangCT);
-                return Ok();
+                return Ok(DonHangCT);
             }
             catch (Exception ex)
             {
@@ -68,7 +68,7 @@ namespace AppAPI.Controllers
             {
                 return BadRequest();
             }
-            return Ok();
+            return Ok(dhct);
 
 
         }

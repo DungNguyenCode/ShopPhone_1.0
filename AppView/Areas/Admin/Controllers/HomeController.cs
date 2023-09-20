@@ -68,6 +68,7 @@ namespace AppView.Areas.Admin.Controllers
                         new Claim("UrlImg",kh.AnhDaiDien),
                         new Claim("Address",kh.DiaChi),
                         new Claim("FullName",kh.TenDayDu),
+                        new Claim("PhoneNumber",kh.SoDienThoai)
                     }, "login");
                     if (kh.ChucVuId == Guid.Parse("9A1EF277-1E03-432F-329B-08DB7E087723"))
                     {
@@ -107,6 +108,10 @@ namespace AppView.Areas.Admin.Controllers
         {
             var login = HttpContext.SignOutAsync();
             return RedirectToAction("Login");
+        }
+        public IActionResult Register()
+        {
+            return View();
         }
 
     }

@@ -19,32 +19,46 @@ namespace AppView.Controllers
 
         }
 
-        [HttpPost]
+
         // hien thi don hang
+        [HttpPost]
         public async Task<IActionResult> ConfirmOrder(DonHangViewModel donHang)
         {
-            var idKhachHang = User.FindFirstValue("UserId");
+            var idKhachHang =  User.FindFirstValue("UserId");
             if (idKhachHang == null)
             {
                 return RedirectToAction("Index", "Home", new { area = "Admin" });
             }
             var gioHang = HttpContext.Session.GetObject<List<GioHangViewModel>>("GioHang");
             //Khoi tao don hang
-             
-            donHang.ngayTao = DateTime.Now;
-            donHang.idDonHang = Guid.NewGuid();
-            donHang.trangThai = 1;
-            donHang.DiaChi = User.FindFirstValue("Address");
-            donHang.ten = User.Identity.Name;
-            donHang.tenDayDu = User.FindFirstValue("FullName");
-            donHang.idKhacHang = Guid.Parse(User.FindFirstValue("UserId"));
+
+            var donHangList = new List<DonHangViewModel>(); // Tạo một danh sách đơn hàng
+
             foreach (var item in gioHang)
             {
-                donHang.idSanPham = item.IdSanPham;
-                donHang.soLuong = item.SoLuong;
-                donHang.thanhTien = item.TongTien;
+                var donHangItem = new DonHangViewModel(); // Tạo đơn hàng mới cho mỗi item
+                donHangItem.ngayTao = DateTime.Now;
+                donHangItem.idDonHang = Guid.NewGuid();
+                donHangItem.trangThai = 1;
+                donHangItem.DiaChi = User.FindFirstValue("Address");
+                donHangItem.ten = User.Identity.Name;
+                donHangItem.tenDayDu = User.FindFirstValue("FullName");
+                donHangItem.idKhacHang = Guid.Parse(User.FindFirstValue("UserId"));
+                donHangItem.Sdt = User.FindFirstValue("PhoneNumber");
+                donHangItem.Email = User.FindFirstValue(ClaimTypes.Email);
+
+                // Gán thông tin từ item vào đơn hàng
+                donHangItem.idSanPham = item.IdSanPham;
+                donHangItem.soLuong = item.SoLuong;
+                donHangItem.thanhTien = item.TongTien;
+                donHangItem.tenSanPham = item.TenSp;
+                donHangItem.giaSp = item.Gia;
+                donHangList.Add(donHangItem); // Thêm đơn hàng vào danh sách
             }
-            return View();
+           
+            // Điều này đảm bảo bạn có một danh sách các đơn hàng, mỗi đơn hàng tương ứng với một sản phẩm trong giỏ hàng
+            return View(donHangList);
+
         }
         [HttpGet]
         public async Task<IActionResult> Index()
@@ -95,7 +109,7 @@ namespace AppView.Controllers
             {
                 return View();
             }
-
+            
         }
         [HttpPost]
         public async Task<IActionResult> Edit(Guid id, DonHang donHang)

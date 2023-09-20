@@ -5,30 +5,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace AppData.Migrations
 {
-    public partial class _1 : Migration
+    public partial class one : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-               name: "DonHangCts");
-
-            migrationBuilder.DropTable(
-                name: "GioHangCts");
-
-            migrationBuilder.DropTable(
-                name: "DonHangs");
-
-            migrationBuilder.DropTable(
-                name: "GioHangs");
-
-            migrationBuilder.DropTable(
-                name: "SanPhams");
-
-            migrationBuilder.DropTable(
-                name: "KhachHangs");
-
-            migrationBuilder.DropTable(
-                name: "ChucVus");
             migrationBuilder.CreateTable(
                 name: "ChucVus",
                 columns: table => new
@@ -222,7 +202,26 @@ namespace AppData.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-           
+            migrationBuilder.DropTable(
+                name: "DonHangCts");
+
+            migrationBuilder.DropTable(
+                name: "GioHangCts");
+
+            migrationBuilder.DropTable(
+                name: "DonHangs");
+
+            migrationBuilder.DropTable(
+                name: "GioHangs");
+
+            migrationBuilder.DropTable(
+                name: "SanPhams");
+
+            migrationBuilder.DropTable(
+                name: "KhachHangs");
+
+            migrationBuilder.DropTable(
+                name: "ChucVus");
         }
     }
 }

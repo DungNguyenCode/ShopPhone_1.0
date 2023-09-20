@@ -134,11 +134,12 @@ namespace AppView.Areas.Admin.Controllers
         {
             ViewBag.Roles = GetChucVu();
             kh.KhachHangId = id;
+            string md5pass = Utility.GetMd5Hash(kh.MatKhau);
             if (imageFile != null && imageFile.Length > 0) // Không null và không trống
             {
                 //Trỏ tới thư mục wwwroot để lát nữa thực hiện việc Copy sang
                 kh.AnhDaiDien = await AddImg(imageFile);
-
+                kh.MatKhau = md5pass;
             }
 
             var result = await _httpClient.PutAsJsonAsync<KhachHang>($"https://localhost:7284/api/KhachHang/Put/{kh.KhachHangId}", kh);

@@ -79,7 +79,10 @@ namespace AppView.Controllers
                         {
                             SoLuong = soLuong.HasValue ? soLuong.Value : 1,
                             IdSanPham = idSanPham,
-                            sanPham = sp
+                            sanPham = sp,
+                            TenSp = sp.Ten,
+                            Gia = sp.Gia,
+                            
                         };
                         // thêm mới sản phẩm vào giỏ hàng vì sản phẩm chưa tồn tại trong danh sách
                         gioHangs.Add(item);

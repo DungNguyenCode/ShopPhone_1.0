@@ -42,7 +42,7 @@ namespace AppAPI.Controllers
             try
             {
                 await _gioHangCt.Add(kh);
-                return Ok();
+                return Ok(kh);
             }
             catch (Exception ex)
             {
@@ -70,7 +70,7 @@ namespace AppAPI.Controllers
             {
                 return BadRequest();
             }
-            return Ok();
+            return Ok(ghct);
 
 
         }

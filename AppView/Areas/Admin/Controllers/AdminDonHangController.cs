@@ -77,7 +77,7 @@ namespace AppView.Areas.Admin.Controllers
         public async Task<IActionResult> Edit(Guid id)
         {
             DonHang response = await _httpClient.GetFromJsonAsync<DonHang>($"https://localhost:7284/api/DonHang/GetById/{id}");
-            if (response.DonHangId != null)
+            if (response.DonHangId != Guid.Empty)
             {
 
                 return View(response);

@@ -40,7 +40,7 @@ namespace AppAPI.Controllers
             try
             {
                 await _gioHangServie.Add(kh);
-                return Ok();
+                return Ok(kh);
             }
             catch (Exception ex)
             {
@@ -68,7 +68,7 @@ namespace AppAPI.Controllers
             {
                 return BadRequest();
             }
-            return Ok();
+            return Ok(giohang);
 
 
         }

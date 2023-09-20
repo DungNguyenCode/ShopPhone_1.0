@@ -40,7 +40,7 @@ namespace AppAPI.Controllers
             try
             {
                 await _donHangService.Add(donHang);
-                return Ok();
+                return Ok(donHang);
             }
             catch (Exception ex)
             {
@@ -62,7 +62,7 @@ namespace AppAPI.Controllers
                 dh.TrangThai = donHang.TrangThai;
                 dh.KhachHangId = donHang.KhachHangId;
                 await _donHangService.Update(dh);
-                return Ok();
+                return Ok(dh);
 
             }
             catch (Exception ex)
